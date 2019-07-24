@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "task-1-wmreply-webpart-client-side-solution",
+    "id": "1964c21d-828d-45fc-8ada-52752621f965",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/task-1-wmreply-webpart.sppkg"
+  }
+}
