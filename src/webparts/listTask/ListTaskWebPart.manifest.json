@@ -21,7 +21,8 @@
     "description": { "default": "ListTask description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "listName": ""
+      "listURL": "",
+      "sliderNumber" : 5
     }
   }]
 }

@@ -1,7 +1,8 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
-    "ListNameFieldLabel": "List"
+    "PropertyPaneDescription": "List View Task for WMReply",
+    "BasicGroupName": "Settings List View",
+    "ListURLFieldLabel": "List URL",
+	  "FilterFieldLabel": "Filter by items",
   }
 });

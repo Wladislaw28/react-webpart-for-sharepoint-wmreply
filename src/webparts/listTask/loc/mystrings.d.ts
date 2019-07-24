@@ -1,7 +1,9 @@
 declare interface IListTaskWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-    ListNameFieldLabel: string;
+    ListURLFieldLabel: string;
+    SliderItems: number;
+    FilterFieldLabel: string;
 }
 
 declare module 'ListTaskWebPartStrings' {

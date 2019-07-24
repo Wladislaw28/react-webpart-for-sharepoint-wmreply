@@ -6,30 +6,65 @@ import {
     IPropertyPaneConfiguration,
     PropertyPaneTextField,
     PropertyPaneDropdown,
-    IPropertyPaneDropdownOption
-} from '@microsoft/sp-property-pane';
+    IPropertyPaneDropdownOption,
+    PropertyPaneSlider,
+    PropertyPaneLink
+    } from '@microsoft/sp-property-pane';
+
+import { IODataList } from '@microsoft/sp-odata-types';
+import { SPHttpClient, SPHttpClientConfiguration, SPHttpClientResponse,
+    ODataVersion, ISPHttpClientConfiguration } from '@microsoft/sp-http';
 
 import * as strings from 'ListTaskWebPartStrings';
 import ListTask from './components/ListTask';
 import { IListTaskProps } from './components/IListTaskProps';
 import styles from "./components/ListTask.module.scss";
+import {number} from "prop-types";
 
 export interface IListTaskWebPartProps {
-    listName: string;
+    listURL: string;
+    sliderNumber: number;
+    filterItems: string;
+    dropdownProperty: any;
 }
 
 export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebPartProps> {
 
-    // private lists: IPropertyPaneDropdownOption[];
-    // private listsDropdownDisabled: boolean = true;
+    private dropdownOptions: IPropertyPaneDropdownOption[];
+    private listsFetched: boolean;
 
+    private fetchOptions(): Promise<IPropertyPaneDropdownOption[]> {
+        var url = this.context.pageContext.web.absoluteUrl + `/sites/Dev1/_api/web/lists?$filter=Hidden eq false`;
+
+        return this.fetchLists(url).then((response) => {
+            var options: Array<IPropertyPaneDropdownOption> = new Array<IPropertyPaneDropdownOption>();
+            response.value.map((list: IODataList) => {
+                options.push( { key: list.Id, text: list.Title });
+            });
+            return options;
+        });
+    }
+
+    private fetchLists(url: string) : Promise<any> {
+        return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1).then((response: SPHttpClientResponse) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("WARNING - failed to hit URL " + url + ". Error = " + response.statusText);
+                return null;
+            }
+        });
+    }
 
   public render(): void {
     const element: React.ReactElement<IListTaskProps > = React.createElement(
       ListTask,
       {
-          listName: this.properties.listName,
-          spHttpClient: this.context.spHttpClient
+          listURL: this.context.pageContext.web.absoluteUrl || this.properties.listURL,
+          spHttpClient: this.context.spHttpClient,
+          sliderNumber: this.properties.sliderNumber,
+          filterItems: this.properties.filterItems,
+          dropdownProperty: this.properties.dropdownProperty
       }
     );
     ReactDom.render(element, this.domElement);
@@ -44,6 +79,14 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+
+      if (!this.listsFetched) {
+          this.fetchOptions().then((response) => {
+              this.dropdownOptions = response;
+              this.listsFetched = true;
+          });
+      }
+
     return {
       pages: [
         {
@@ -54,9 +97,26 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                  PropertyPaneTextField('listName', {
-                  label: strings.ListNameFieldLabel
-                })
+                  PropertyPaneTextField('listURL', {
+                  label: strings.ListURLFieldLabel,
+                      placeholder: "Input url's list"
+                }),
+                  PropertyPaneSlider('sliderNumber', {
+                      label: 'Items',
+                      min:1,
+                      max:20,
+                      value: strings.SliderItems,
+                      showValue:true,
+                      step:1
+                  }),
+                  PropertyPaneTextField ('filterItems', {
+                      label: strings.FilterFieldLabel,
+                      placeholder: "Input filter for rendering items"
+                  }),
+                  PropertyPaneDropdown('dropdownProperty', {
+                      label: 'List choice',
+                      options: this.dropdownOptions
+                  })
               ]
             }
           ]

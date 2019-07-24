@@ -25,12 +25,14 @@ export interface ISPList {
 
 export interface IListTaskState {
     listData: ISPList[];
+    listName: string;
 }
 
 export default class ListTask extends React.Component<IListTaskProps, IListTaskState> {
 
     public state = {
-        listData: []
+        listData: [],
+        listName: ''
     };
 
     private _getMockListData(): Promise<ISPLists> {
@@ -44,57 +46,77 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
 
     private _getListData(): Promise<ISPLists> {
         return this.props.spHttpClient.get(
-            `https://mihasev28wmreply.sharepoint.com/sites/Dev1/_api/web/lists?$filter=Hidden eq false`,
+            `${this.props.listURL}/sites/Dev1/_api/web/lists?$filter=Hidden eq false`,
             SPHttpClient.configurations.v1)
             .then((response: SPHttpClientResponse) => {
                 return response.json();
             });
     }
 
+    // private _getItemsData(listName: string): Promise<ISPLists> {
+    //     return this.props.spHttpClient.get(
+    //         `${this.props.listURL}/sites/Dev1/_api/web/lists/getbytitle('${listName}')/items?$filter=Hidden eq false`,
+    //         SPHttpClient.configurations.v1)
+    //         .then((response: SPHttpClientResponse) => {
+    //             console.log(response.json());
+    //             return response.json();
+    //         });
+    // }
+
     private _renderList(items: ISPList[]): void {
+        const idProps:string = this.props.dropdownProperty;
+        const dataI: ISPList[] = items.filter((item) => item.Id === idProps);
        this.setState({
-           listData: items
+           listData: dataI,
+           listName: dataI["0"].Title
        });
     }
 
-    private _renderListAsync(): void {
+    private _renderAllList(items: ISPList[]): void {
+        this.setState({
+            listData: items
+        });
+    }
+
+    private _renderAllListAsync(): void {
         // Local environment
         if (Environment.type === EnvironmentType.Local) {
             this._getMockListData().then((response) => {
-                this._renderList(response.value);
-                console.log(response.value);
+                this._renderAllList(response.value);
             });
         }
         else if (Environment.type == EnvironmentType.SharePoint ||
             Environment.type == EnvironmentType.ClassicSharePoint) {
-            this._getListData()
-                .then((response) => {
-                    this._renderList(response.value);
-                    console.log(response.value);
+            this._getListData().then((response) => {
+                    this._renderAllList(response.value);
                 });
         }
     }
 
+    private _renderListAsync(): void {
+        this._getListData().then((response) => {
+            this._renderList(response.value);
+        });
+    }
+
   public render(): React.ReactElement<IListTaskProps> {
-        const {listData} = this.state;
+        const {listData, listName} = this.state;
     // @ts-ignore
       return (
         <div className={styles.listTask}>
             <div className={styles.container}>
                 <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
                     <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                        <span className="ms-font-xl ms-fontColor-white">Welcome to SharePoint!</span>
-                        <p className="ms-font-l ms-fontColor-white">Customize SharePoint experiences using web parts.</p>
-                        <p className="ms-font-l ms-fontColor-white">{escape(this.props.listName)}</p>
-                        <a href="https://aka.ms/spfx" className={styles.button}>
-                            <span className={styles.label}>Learn more</span>
-                        </a>
+                        <span className="ms-font-xl ms-fontColor-white">Welcome to task by SharePoint!</span>
+                        <p className="ms-font-l ms-fontColor-white">{escape(this.props.listURL)}</p>
+                        <h1>{this.props.sliderNumber}</h1>
+                        <button className={styles.button} onClick={()=>this._renderAllListAsync()}>View All List</button>
                         <button className={styles.button} onClick={()=>this._renderListAsync()}>View List</button>
                     </div>
                 </div>
-                <div id="spListContainer">
+                <div className="spListContainer">
                     {listData.map((item) => (
-                            <div key={item.Id}>{item.Title}</div>
+                            <div className="spListContainerItem" key={item.Id}>{item.Title}</div>
                         ))}
                 </div>
             </div>
