@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1fc825d-ef8c-4fa5-ae9e-474e29b9c198" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webparts/listTask/components/loader/Loading.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -33,20 +35,20 @@
         <counts>
           <entry key="css" value="2" />
           <entry key="js" value="1" />
-          <entry key="json" value="4" />
+          <entry key="json" value="5" />
           <entry key="scss" value="3" />
           <entry key="ts" value="28" />
-          <entry key="tsx" value="6" />
+          <entry key="tsx" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="2" />
-          <entry key="JSON" value="4" />
+          <entry key="JSON" value="5" />
           <entry key="JavaScript" value="1" />
           <entry key="SCSS" value="3" />
           <entry key="TypeScript" value="28" />
-          <entry key="TypeScript JSX" value="6" />
+          <entry key="TypeScript JSX" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -55,7 +57,7 @@
           <entry key="json" value="28" />
           <entry key="scss" value="255" />
           <entry key="ts" value="732" />
-          <entry key="tsx" value="2323" />
+          <entry key="tsx" value="2373" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -65,7 +67,7 @@
           <entry key="JavaScript" value="98" />
           <entry key="SCSS" value="255" />
           <entry key="TypeScript" value="713" />
-          <entry key="TypeScript JSX" value="2323" />
+          <entry key="TypeScript JSX" value="2373" />
         </counts>
       </usages-collector>
     </session>
@@ -84,11 +86,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="145" column="105" selection-start-line="145" selection-start-column="105" selection-end-line="145" selection-end-column="105" />
+            <state relative-caret-position="387">
+              <caret line="185" column="18" lean-forward="true" selection-start-line="185" selection-start-column="18" selection-end-line="185" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/loader/Loading.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="9" column="31" lean-forward="true" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -158,6 +172,7 @@
         <option value="$PROJECT_DIR$/lib/webparts/listTask/ListTaskWebPart.d.ts" />
         <option value="$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx" />
         <option value="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.module.scss" />
+        <option value="$PROJECT_DIR$/src/webparts/listTask/components/loader/Loading.tsx" />
         <option value="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx" />
       </list>
     </option>
@@ -227,6 +242,15 @@
               <item name="listTask" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="task1_wmreply_webpart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="task1_wmreply_webpart" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="webparts" type="462c0819:PsiDirectoryNode" />
+              <item name="listTask" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="loader" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -271,12 +295,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1563968650933</updated>
-      <workItem from="1563968657913" duration="43513000" />
+      <workItem from="1563968657913" duration="44622000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43513000" />
+    <option name="totallyTimeSpent" value="44622000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -458,10 +482,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="145" column="105" selection-start-line="145" selection-start-column="105" selection-end-line="145" selection-end-column="105" />
+        <state relative-caret-position="387">
+          <caret line="185" column="18" lean-forward="true" selection-start-line="185" selection-start-column="18" selection-end-line="185" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/loader/Loading.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="31" lean-forward="true" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

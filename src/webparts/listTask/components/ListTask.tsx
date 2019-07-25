@@ -11,11 +11,24 @@ import {
 } from '@microsoft/sp-http';
 import { IListTaskProps } from './IListTaskProps';
 import { escape } from '@microsoft/sp-lodash-subset';
-
-import RenderItems from './RenderItems/RenderItems';
-import RenderLists from './RenderILists/RenderLists';
 import {IListTaskState,ISPList,ISPLists } from './interface';
+import Loadable from 'react-loadable';
+import Loading from './loader/Loading';
 import styles from './ListTask.module.scss';
+
+const LoadableRenderLists = Loadable({
+    loader: () => import(/* webpackChunkName: "renderlists" */'./RenderILists/RenderLists'),
+    loading: Loading,
+    timeout: 1000,
+    delay: 200
+});
+
+const LoadableRenderItems = Loadable({
+    loader: () => import(/* webpackChunkName: "renderitemss" */'./RenderItems/RenderItems'),
+    loading: Loading,
+    timeout: 1000,
+    delay: 200
+});
 
 export default class ListTask extends React.Component<IListTaskProps, IListTaskState> {
 
@@ -164,11 +177,11 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
                     </div>
                 </div>
                 <div>
-                    {listData.length > 1 ? <RenderLists listData={listData} /> : null}
+                    {listData.length > 1 ? <LoadableRenderLists listData={listData} /> : null}
                 </div>
                 <div>
                     {listItemsData.length > 0 && listData.length <= 1 ?
-                        <RenderItems listName={listName} listItemsData={listItemsData} /> : null }
+                        <LoadableRenderItems listName={listName} listItemsData={listItemsData} /> : null }
                 </div>
             </div>
         </div>
