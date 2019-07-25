@@ -14,6 +14,7 @@ import { IODataList } from '@microsoft/sp-odata-types';
 import { SPHttpClient, SPHttpClientConfiguration, SPHttpClientResponse,
     ODataVersion, ISPHttpClientConfiguration } from '@microsoft/sp-http';
 
+import { escape } from '@microsoft/sp-lodash-subset';
 import * as strings from 'ListTaskWebPartStrings';
 import ListTask from './components/ListTask';
 import { IListTaskProps } from './components/IListTaskProps';
@@ -25,10 +26,10 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
     private listsFetched: boolean;
 
     private fetchOptions(): Promise<IPropertyPaneDropdownOption[]> {
-        var url = this.context.pageContext.web.absoluteUrl + `/sites/Dev1/_api/web/lists?$filter=Hidden eq false`;
+        let url = this.properties.listURL + `/_api/web/lists?$filter=Hidden eq false`;
 
         return this.fetchLists(url).then((response) => {
-            var options: Array<IPropertyPaneDropdownOption> = new Array<IPropertyPaneDropdownOption>();
+            let options: Array<IPropertyPaneDropdownOption> = new Array<IPropertyPaneDropdownOption>();
             response.value.map((list: IODataList) => {
                 options.push( { key: list.Id, text: list.Title });
             });
@@ -47,11 +48,34 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
         });
     }
 
+    private validateUrl(value: string): Promise<string>{
+        return new Promise<string>((resolve: (validationErrorMessage: string) => void, reject: (error: any) => void): void => {
+            this.context.spHttpClient.get(`${escape(value)}`, SPHttpClient.configurations.v1)
+                .then((response: SPHttpClientResponse): void => {
+                    if (response.ok) {
+                        resolve('');
+                        return;
+                    }
+                    else if (response.status === 404) {
+                        resolve(`Site '${escape(value)}' doesn't exist`);
+                        return;
+                    }
+                    else {
+                        resolve(`Error: ${response.statusText}. Please try again`);
+                        return;
+                    }
+                })
+                .catch((error: any): void => {
+                    resolve(error);
+                });
+        });
+    }
+
   public render(): void {
     const element: React.ReactElement<IListTaskProps > = React.createElement(
       ListTask,
       {
-          listURL: this.context.pageContext.web.absoluteUrl || this.properties.listURL,
+          listURL: this.properties.listURL || this.context.pageContext.web.absoluteUrl,
           spHttpClient: this.context.spHttpClient,
           sliderNumber: this.properties.sliderNumber,
           filterItems: this.properties.filterItems,
@@ -74,7 +98,8 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
       if (!this.listsFetched) {
           this.fetchOptions().then((response) => {
               this.dropdownOptions = response;
-              this.listsFetched = true;
+              this.listsFetched = !this.listsFetched;
+              this.context.propertyPane.refresh();
           });
       }
 
@@ -90,8 +115,14 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
               groupFields: [
                   PropertyPaneTextField('listURL', {
                   label: strings.ListURLFieldLabel,
-                      placeholder: "Input url's list"
+                      placeholder: "Input url's list",
+                      onGetErrorMessage: this.validateUrl.bind(this),
+                      deferredValidationTime: 500
                 }),
+                  PropertyPaneDropdown('dropdownProperty', {
+                      label: 'List choice',
+                      options: this.dropdownOptions
+                  }),
                   PropertyPaneSlider('sliderNumber', {
                       label: 'Items',
                       min:1,
@@ -103,11 +134,8 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
                   PropertyPaneTextField ('filterItems', {
                       label: strings.FilterFieldLabel,
                       placeholder: "Input filter for rendering items"
-                  }),
-                  PropertyPaneDropdown('dropdownProperty', {
-                      label: 'List choice',
-                      options: this.dropdownOptions
                   })
+
               ]
             }
           ]

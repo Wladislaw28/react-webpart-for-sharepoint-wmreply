@@ -23,7 +23,7 @@
       "officeFabricIconFontName": "PageListSolid",
     "properties": {
       "listURL": "",
-      "sliderNumber" : 2,
+      "sliderNumber" : 5,
       "filterItems" : ""
     }
   }

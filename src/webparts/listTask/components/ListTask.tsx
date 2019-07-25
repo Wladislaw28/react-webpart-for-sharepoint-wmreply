@@ -64,7 +64,7 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
 
     private _getListData(): Promise<ISPLists> {
         return this.props.spHttpClient.get(
-            `${this.props.listURL}/sites/Dev1/_api/web/lists?$filter=Hidden eq false`,
+            `${this.props.listURL}/_api/web/lists?$filter=Hidden eq false`,
             SPHttpClient.configurations.v1)
             .then((response: SPHttpClientResponse) => {
                 return response.json();
@@ -79,13 +79,13 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
            listName: dataI["0"].Title
        });
         return (this.props.filterItems === "" ? this.props.spHttpClient.get(
-            `${this.props.listURL}/sites/Dev1/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}`,
+            `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}`,
             SPHttpClient.configurations.v1)
             .then((response: SPHttpClientResponse) =>   {
                 return response.json();
             }) :
             this.props.spHttpClient.get(
-            `${this.props.listURL}/sites/Dev1/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}?$filter=${this.props.filterItems}`,
+            `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}?$select=${this.props.filterItems}`,
             SPHttpClient.configurations.v1)
             .then((response: SPHttpClientResponse) =>   {
                 return response.json();
@@ -133,7 +133,7 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
             'BaseTemplate': 100,
             '__metadata': { 'type': 'SP.List' }
         });
-        this.props.spHttpClient.post(`${this.props.listURL}/sites/Dev1/_api/web/lists`, SPHttpClient.configurations.v1, {
+        this.props.spHttpClient.post(`${this.props.listURL}/_api/web/lists`, SPHttpClient.configurations.v1, {
             headers: {
                 "accept": "application/json;odata=verbose",
                 "content-type": "application/json;odata=verbose",
@@ -181,7 +181,8 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
                 </div>
                 <div>
                     {listItemsData.length > 0 && listData.length <= 1 ?
-                        <LoadableRenderItems listName={listName} listItemsData={listItemsData} /> : null }
+                        <LoadableRenderItems listName={listName} listItemsData={listItemsData} />
+                        : null }
                 </div>
             </div>
         </div>
