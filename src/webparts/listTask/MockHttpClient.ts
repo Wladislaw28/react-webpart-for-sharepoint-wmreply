@@ -1,4 +1,4 @@
-import { ISPList } from './components/ListTask';
+import { ISPList } from './components/interface';
 
 export default class MockHttpClient  {
 

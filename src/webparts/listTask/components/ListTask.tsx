@@ -12,26 +12,16 @@ import {
 import { IListTaskProps } from './IListTaskProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
+import RenderItems from './RenderItems/RenderItems';
+import RenderLists from './RenderILists/RenderLists';
+import {IListTaskState,ISPList,ISPLists } from './interface';
 import styles from './ListTask.module.scss';
-
-export interface ISPLists {
-    value: ISPList[];
-}
-
-export interface ISPList {
-    Title: string;
-    Id: string;
-}
-
-export interface IListTaskState {
-    listData: ISPList[];
-    listName: string;
-}
 
 export default class ListTask extends React.Component<IListTaskProps, IListTaskState> {
 
     public state = {
         listData: [],
+        listItemsData: [],
         listName: ''
     };
 
@@ -53,29 +43,38 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
             });
     }
 
-    // private _getItemsData(listName: string): Promise<ISPLists> {
-    //     return this.props.spHttpClient.get(
-    //         `${this.props.listURL}/sites/Dev1/_api/web/lists/getbytitle('${listName}')/items?$filter=Hidden eq false`,
-    //         SPHttpClient.configurations.v1)
-    //         .then((response: SPHttpClientResponse) => {
-    //             console.log(response.json());
-    //             return response.json();
-    //         });
-    // }
-
-    private _renderList(items: ISPList[]): void {
+    private _getFilterListAndItems(items: ISPList[]): Promise<ISPLists> {
         const idProps:string = this.props.dropdownProperty;
         const dataI: ISPList[] = items.filter((item) => item.Id === idProps);
        this.setState({
            listData: dataI,
            listName: dataI["0"].Title
        });
+        return (this.props.filterItems === "" ? this.props.spHttpClient.get(
+            `${this.props.listURL}/sites/Dev1/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}`,
+            SPHttpClient.configurations.v1)
+            .then((response: SPHttpClientResponse) =>   {
+                return response.json();
+            }) :
+            this.props.spHttpClient.get(
+            `${this.props.listURL}/sites/Dev1/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}?$filter=${this.props.filterItems}`,
+            SPHttpClient.configurations.v1)
+            .then((response: SPHttpClientResponse) =>   {
+                return response.json();
+            })) ;
     }
 
     private _renderAllList(items: ISPList[]): void {
         this.setState({
             listData: items
         });
+    }
+
+    private _renderList(items: ISPList[]) : void{
+        this.setState({
+            listItemsData: items
+        });
+        console.log(this.state.listItemsData);
     }
 
     private _renderAllListAsync(): void {
@@ -95,12 +94,14 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
 
     private _renderListAsync(): void {
         this._getListData().then((response) => {
-            this._renderList(response.value);
+            this._getFilterListAndItems(response.value).then((responseItems) => {
+                this._renderList(responseItems.value);
+            });
         });
     }
 
   public render(): React.ReactElement<IListTaskProps> {
-        const {listData, listName} = this.state;
+        const {listData, listName, listItemsData} = this.state;
     // @ts-ignore
       return (
         <div className={styles.listTask}>
@@ -109,15 +110,17 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
                     <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
                         <span className="ms-font-xl ms-fontColor-white">Welcome to task by SharePoint!</span>
                         <p className="ms-font-l ms-fontColor-white">{escape(this.props.listURL)}</p>
-                        <h1>{this.props.sliderNumber}</h1>
+                        {listData.length === 0 ? <h1>You have not selected a list</h1> : null}
                         <button className={styles.button} onClick={()=>this._renderAllListAsync()}>View All List</button>
                         <button className={styles.button} onClick={()=>this._renderListAsync()}>View List</button>
                     </div>
                 </div>
-                <div className="spListContainer">
-                    {listData.map((item) => (
-                            <div className="spListContainerItem" key={item.Id}>{item.Title}</div>
-                        ))}
+                <div>
+                    {listData.length > 1 ? <RenderLists listData={listData} /> : null}
+                </div>
+                <div>
+                    {listItemsData.length > 0 && listData.length <= 1 ?
+                        <RenderItems listName={listName} listItemsData={listItemsData} /> : null }
                 </div>
             </div>
         </div>

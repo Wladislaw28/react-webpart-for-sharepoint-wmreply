@@ -8,7 +8,6 @@ import {
     PropertyPaneDropdown,
     IPropertyPaneDropdownOption,
     PropertyPaneSlider,
-    PropertyPaneLink
     } from '@microsoft/sp-property-pane';
 
 import { IODataList } from '@microsoft/sp-odata-types';
@@ -18,15 +17,7 @@ import { SPHttpClient, SPHttpClientConfiguration, SPHttpClientResponse,
 import * as strings from 'ListTaskWebPartStrings';
 import ListTask from './components/ListTask';
 import { IListTaskProps } from './components/IListTaskProps';
-import styles from "./components/ListTask.module.scss";
-import {number} from "prop-types";
-
-export interface IListTaskWebPartProps {
-    listURL: string;
-    sliderNumber: number;
-    filterItems: string;
-    dropdownProperty: any;
-}
+import {IListTaskWebPartProps} from './components/interface';
 
 export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebPartProps> {
 

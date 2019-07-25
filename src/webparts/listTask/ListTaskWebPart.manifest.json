@@ -14,15 +14,18 @@
   "requiresCustomScript": false,
   "supportedHosts": ["SharePointWebPart"],
 
-  "preconfiguredEntries": [{
+  "preconfiguredEntries": [
+    {
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
     "title": { "default": "ListTask" },
     "description": { "default": "ListTask description" },
-    "officeFabricIconFontName": "Page",
+      "officeFabricIconFontName": "PageListSolid",
     "properties": {
       "listURL": "",
-      "sliderNumber" : 5
+      "sliderNumber" : 2,
+      "filterItems" : ""
     }
-  }]
+  }
+  ]
 }
