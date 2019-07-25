@@ -22,8 +22,23 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
     public state = {
         listData: [],
         listItemsData: [],
-        listName: ''
+        listName: '',
+        isOpenCreateList: false,
+        newListName: ''
     };
+
+    private onOpenForm(e) : void {
+       e.preventDefault();
+       this.setState({
+           isOpenCreateList: !this.state.isOpenCreateList
+       });
+    }
+
+    private onChnageInput({ target: { value } }): void {
+        this.setState({
+            newListName: value
+        });
+    }
 
     private _getMockListData(): Promise<ISPLists> {
         return MockHttpClient.get()
@@ -74,7 +89,6 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
         this.setState({
             listItemsData: items
         });
-        console.log(this.state.listItemsData);
     }
 
     private _renderAllListAsync(): void {
@@ -100,17 +114,51 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
         });
     }
 
+    private _createList(newListName: string): void{
+        const body: string = JSON.stringify({
+            'Title': newListName,
+            'BaseTemplate': 100,
+            '__metadata': { 'type': 'SP.List' }
+        });
+        this.props.spHttpClient.post(`${this.props.listURL}/sites/Dev1/_api/web/lists`, SPHttpClient.configurations.v1, {
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "content-type": "application/json;odata=verbose",
+                "odata-version": ""
+            },
+            body: body
+        });
+        alert(`${this.state.newListName} list is creating`);
+        this.setState({
+           isOpenCreateList: false,
+           newListName: ''
+        });
+    }
+
   public render(): React.ReactElement<IListTaskProps> {
-        const {listData, listName, listItemsData} = this.state;
+        const {listData, listName, listItemsData,isOpenCreateList,newListName} = this.state;
     // @ts-ignore
       return (
         <div className={styles.listTask}>
             <div className={styles.container}>
                 <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
                     <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                        <span className="ms-font-xl ms-fontColor-white">Welcome to task by SharePoint!</span>
+                        <span className={styles.welcome_text}>Welcome to task by SharePoint!</span> <br/>
                         <p className="ms-font-l ms-fontColor-white">{escape(this.props.listURL)}</p>
-                        {listData.length === 0 ? <h1>You have not selected a list</h1> : null}
+                        {listData.length === 0 ?
+                            <div>
+                                 <h1>You have not selected a list</h1>
+                                <button className={styles.button} onClick={(e)=>this.onOpenForm(e)}>
+                                    {isOpenCreateList === true ? 'Close Form' : 'Create List'}</button>
+
+                                {isOpenCreateList === true ?
+                                    <div>
+                                        <input type="text" onChange={(target) => this.onChnageInput(target)}/>
+                                        <button className={styles.button} onClick={()=>this._createList(newListName)}>Create</button>
+                                    </div>
+                                    : null}
+                             </div>
+                            : null}
                         <button className={styles.button} onClick={()=>this._renderAllListAsync()}>View All List</button>
                         <button className={styles.button} onClick={()=>this._renderListAsync()}>View List</button>
                     </div>

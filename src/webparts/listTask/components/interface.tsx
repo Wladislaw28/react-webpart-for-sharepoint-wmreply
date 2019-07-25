@@ -18,6 +18,8 @@ export interface IListTaskState {
     listData: ISPList[];
     listItemsData: any;
     listName: string;
+    isOpenCreateList: boolean;
+    newListName: string;
 }
 
 export interface RenderItemsList {
