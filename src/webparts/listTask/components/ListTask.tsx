@@ -85,7 +85,7 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
                 return response.json();
             }) :
             this.props.spHttpClient.get(
-            `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}?$select=${this.props.filterItems}`,
+            `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?&top=${this.props.sliderNumber}&$select=${this.props.filterItems}`,
             SPHttpClient.configurations.v1)
             .then((response: SPHttpClientResponse) =>   {
                 return response.json();
