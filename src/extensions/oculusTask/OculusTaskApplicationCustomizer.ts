@@ -10,7 +10,6 @@ import {
 // @ts-ignore
 import { Dialog } from '@microsoft/sp-dialog';
 import { escape } from '@microsoft/sp-lodash-subset';
-import styles from './AppCustomizer.module.scss';
 import * as strings from 'OculusTaskApplicationCustomizerStrings';
 import OculusLogic from './components/OculusLogic';
 import {IOculusLogicProps} from './components/IOculusLogic';
@@ -50,7 +49,8 @@ export default class OculusTaskApplicationCustomizer extends BaseApplicationCust
                     OculusLogic,
                     {
                         context: this.context,
-                        urlContext: window.top.location.href
+                        urlContext: window.top.location.href,
+                        spHttpClient: this.context.spHttpClient
                     }
                 );
                 ReactDom.render(element, this._headerPlaceholder.domElement);

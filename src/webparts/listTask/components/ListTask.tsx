@@ -135,9 +135,9 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
         });
         this.props.spHttpClient.post(`${this.props.listURL}/_api/web/lists`, SPHttpClient.configurations.v1, {
             headers: {
-                "accept": "application/json;odata=verbose",
-                "content-type": "application/json;odata=verbose",
-                "odata-version": ""
+                'Accept': 'application/json;odata=nometadata',
+                'Content-type': 'application/json;odata=verbose',
+                'odata-version': ''
             },
             body: body
         });
