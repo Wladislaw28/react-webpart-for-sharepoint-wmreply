@@ -20,3 +20,5 @@ export interface ISPList {
     Url: string;
     view: number;
 }
+
+

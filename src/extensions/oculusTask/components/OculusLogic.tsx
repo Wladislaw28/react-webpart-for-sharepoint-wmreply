@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { SPHttpClient, HttpClientResponse,
-    ISPHttpClientOptions, SPHttpClientResponse } from "@microsoft/sp-http";
-import {
-    ActionButton,
-    IButtonProps
-} from 'office-ui-fabric-react/lib/Button';
+import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
+
+import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
+import { getId } from 'office-ui-fabric-react/lib/Utilities';
 
 import styles from './StyleLinks.module.scss';
 import { Guid } from "@microsoft/sp-core-library";
@@ -12,8 +11,9 @@ import { Guid } from "@microsoft/sp-core-library";
 import {IOculusLogicProps, IOculusLogicState,
     ISPLists, ISPList} from './IOculusLogic';
 
-
 export default class OculusLogic extends React.Component<IOculusLogicProps,IOculusLogicState>{
+
+    private _hostId: string = getId('tooltipHost');
 
     public state ={
         counter: 1,
@@ -99,14 +99,17 @@ export default class OculusLogic extends React.Component<IOculusLogicProps,IOcul
     }
 
     public render(): React.ReactElement<IOculusLogicProps>{
+        const {counter} = this.state;
         return(
             <div className={styles.usefulLinks}>
                 <div className={styles.itemsContainer}>
-                    <ActionButton
+                    <TooltipHost content="This field shows the number of visits to this page." id={this._hostId} calloutProps={{ gapSpace: 20 }}>
+                    <DefaultButton
                         iconProps={{ iconName: 'Glasses' }}
-                        href={this.props.urlContext} >
-                        {this.state.counter}
-                     </ActionButton>
+                        href={this.props.urlContext} aria-labelledby={this._hostId}>
+                        {counter}
+                     </DefaultButton>
+                    </TooltipHost>
                 </div>
             </div>
         );
