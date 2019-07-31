@@ -36,144 +36,103 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
         listData: [],
         listItemsData: [],
         listName: '',
-        isOpenCreateList: false,
-        newListName: ''
+        yesOrNotList: true
     };
 
-    private onOpenForm(e) : void {
-       e.preventDefault();
-       this.setState({
-           isOpenCreateList: !this.state.isOpenCreateList
-       });
-    }
-
-    private onChnageInput({ target: { value } }): void {
-        this.setState({
-            newListName: value
-        });
-    }
-
-    private _getMockListData(): Promise<ISPLists> {
-        return MockHttpClient.get()
-            .then((data: ISPList[]) => {
-                var listDataMock: ISPLists = { value: data };
-                console.log(listDataMock.value);
-                return listDataMock;
-            }) as Promise<ISPLists>;
-    }
-
-    private _getListData(): Promise<ISPLists> {
-        return this.props.spHttpClient.get(
-            `${this.props.listURL}/_api/web/lists?$filter=Hidden eq false`,
-            SPHttpClient.configurations.v1)
-            .then((response: SPHttpClientResponse) => {
-                return response.json();
-            });
-    }
-
-    private _getFilterListAndItems(items: ISPList[]): Promise<ISPLists> {
-        const idProps:string = this.props.dropdownProperty;
-        const dataI: ISPList[] = items.filter((item) => item.Id === idProps);
-       this.setState({
-           listData: dataI,
-           listName: dataI["0"].Title
-       });
-        return (this.props.filterItems === "" ? this.props.spHttpClient.get(
-            `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}`,
-            SPHttpClient.configurations.v1)
-            .then((response: SPHttpClientResponse) =>   {
-                return response.json();
-            }) :
-            this.props.spHttpClient.get(
-            `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?&top=${this.props.sliderNumber}&$select=${this.props.filterItems}`,
-            SPHttpClient.configurations.v1)
-            .then((response: SPHttpClientResponse) =>   {
-                return response.json();
-            })) ;
-    }
-
-    private _renderAllList(items: ISPList[]): void {
-        this.setState({
-            listData: items
-        });
-    }
-
-    private _renderList(items: ISPList[]) : void{
-        this.setState({
-            listItemsData: items
-        });
-    }
-
-    private _renderAllListAsync(): void {
-        // Local environment
-        if (Environment.type === EnvironmentType.Local) {
-            this._getMockListData().then((response) => {
-                this._renderAllList(response.value);
+    public componentDidMount(): void {
+        if (this.props.dropdownProperty === undefined){
+            this.setState({
+                yesOrNotList: false
             });
         }
-        else if (Environment.type == EnvironmentType.SharePoint ||
-            Environment.type == EnvironmentType.ClassicSharePoint) {
-            this._getListData().then((response) => {
-                    this._renderAllList(response.value);
-                });
-        }
     }
 
-    private _renderListAsync(): void {
-        this._getListData().then((response) => {
-            this._getFilterListAndItems(response.value).then((responseItems) => {
-                this._renderList(responseItems.value);
-            });
-        });
-    }
-
-    private _createList(newListName: string): void{
-        const body: string = JSON.stringify({
-            'Title': newListName,
-            'BaseTemplate': 100,
-            '__metadata': { 'type': 'SP.List' }
-        });
-        this.props.spHttpClient.post(`${this.props.listURL}/_api/web/lists`, SPHttpClient.configurations.v1, {
-            headers: {
-                'Accept': 'application/json;odata=nometadata',
-                'Content-type': 'application/json;odata=verbose',
-                'odata-version': ''
-            },
-            body: body
-        });
-        alert(`${this.state.newListName} list is creating`);
-        this.setState({
-           isOpenCreateList: false,
-           newListName: ''
-        });
-    }
+    // private _getMockListData(): Promise<ISPLists> {
+    //     return MockHttpClient.get()
+    //         .then((data: ISPList[]) => {
+    //             var listDataMock: ISPLists = { value: data };
+    //             console.log(listDataMock.value);
+    //             return listDataMock;
+    //         }) as Promise<ISPLists>;
+    // }
+    //
+    // private _getListData(): Promise<ISPLists> {
+    //     return this.props.spHttpClient.get(
+    //         `${this.props.listURL}/_api/web/lists?$filter=Hidden eq false`,
+    //         SPHttpClient.configurations.v1)
+    //         .then((response: SPHttpClientResponse) => {
+    //             return response.json();
+    //         });
+    // }
+    //
+    // private _getFilterListAndItems(items: ISPList[]): Promise<ISPLists> {
+    //     const idProps:string = this.props.dropdownProperty;
+    //     const dataI: ISPList[] = items.filter((item) => item.Id === idProps);
+    //    this.setState({
+    //        listData: dataI,
+    //        listName: dataI["0"].Title
+    //    });
+    //     return (this.props.filterItems === "" ? this.props.spHttpClient.get(
+    //         `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}`,
+    //         SPHttpClient.configurations.v1)
+    //         .then((response: SPHttpClientResponse) =>   {
+    //             return response.json();
+    //         }) :
+    //         this.props.spHttpClient.get(
+    //         `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?&top=${this.props.sliderNumber}&$select=${this.props.filterItems}`,
+    //         SPHttpClient.configurations.v1)
+    //         .then((response: SPHttpClientResponse) =>   {
+    //             return response.json();
+    //         })) ;
+    // }
+    //
+    // private _renderAllList(items: ISPList[]): void {
+    //     this.setState({
+    //         listData: items
+    //     });
+    // }
+    //
+    // private _renderList(items: ISPList[]) : void{
+    //     this.setState({
+    //         listItemsData: items
+    //     });
+    // }
+    //
+    // private _renderAllListAsync(): void {
+    //     // Local environment
+    //     if (Environment.type === EnvironmentType.Local) {
+    //         this._getMockListData().then((response) => {
+    //             this._renderAllList(response.value);
+    //         });
+    //     }
+    //     else if (Environment.type == EnvironmentType.SharePoint ||
+    //         Environment.type == EnvironmentType.ClassicSharePoint) {
+    //         this._getListData().then((response) => {
+    //                 this._renderAllList(response.value);
+    //             });
+    //     }
+    // }
+    //
+    // private _renderListAsync(): void {
+    //     this._getListData().then((response) => {
+    //         this._getFilterListAndItems(response.value).then((responseItems) => {
+    //             this._renderList(responseItems.value);
+    //         });
+    //     });
+    // }
 
   public render(): React.ReactElement<IListTaskProps> {
-        const {listData, listName, listItemsData,isOpenCreateList,newListName} = this.state;
+        const {listData, listName, listItemsData, yesOrNotList} = this.state;
     // @ts-ignore
       return (
         <div className={styles.listTask}>
             <div className={styles.container}>
                 <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
                     <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
+                        <span className={styles.welcome_text}>{this.props.nameWebPart}</span> <br/> <br/>
                         <span className={styles.welcome_text}>Welcome to task by SharePoint!</span> <br/>
                         <p className="ms-font-l ms-fontColor-white">{escape(this.props.listURL)}</p>
-                        {listData.length === 0 ?
-                            <div>
-                                 <h1>You have not selected a list</h1>
-                                <button className={styles.button} onClick={(e)=>this.onOpenForm(e)}>
-                                    {isOpenCreateList === true ? 'Close Form' : 'Create List'}</button>
-
-                                {isOpenCreateList === true ?
-                                    <div>
-                                        <input type="text" onChange={(target) => this.onChnageInput(target)}/>
-                                        <button className={styles.button} onClick={()=>this._createList(newListName)}>Create</button>
-                                    </div>
-                                    : null}
-                             </div>
-                            : null}
-                        <button className={styles.button} onClick={()=>this._renderAllListAsync()}>View All List</button>
-                        <button className={styles.button} onClick={()=>this._renderListAsync()}>View List</button>
+                        {yesOrNotList === false ? <h1 className={styles.headline}>Choice the list</h1> : null}
                     </div>
                 </div>
                 <div>

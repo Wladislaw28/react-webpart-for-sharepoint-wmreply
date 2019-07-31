@@ -1,7 +1,9 @@
 export interface IListTaskWebPartProps {
+    nameWebPart: string;
     listURL: string;
     sliderNumber: number;
     filterItems: string;
+    selectItems: string;
     dropdownProperty: any;
 }
 
@@ -18,8 +20,7 @@ export interface IListTaskState {
     listData: ISPList[];
     listItemsData: any;
     listName: string;
-    isOpenCreateList: boolean;
-    newListName: string;
+    yesOrNotList: boolean;
 }
 
 export interface RenderItemsList {

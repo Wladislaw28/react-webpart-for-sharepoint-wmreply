@@ -22,9 +22,11 @@
     "description": { "default": "ListTask description" },
       "officeFabricIconFontName": "PageListSolid",
     "properties": {
+      "nameWebPart": "Web Part 3",
       "listURL": "",
       "sliderNumber" : 5,
-      "filterItems" : ""
+      "filterItems" : "",
+      "selectItems": "Id;Title"
     }
   }
   ]

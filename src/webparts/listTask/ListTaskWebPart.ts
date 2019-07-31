@@ -11,48 +11,60 @@ import {
     } from '@microsoft/sp-property-pane';
 
 import { IODataList } from '@microsoft/sp-odata-types';
-import { SPHttpClient, SPHttpClientConfiguration, SPHttpClientResponse,
-    ODataVersion, ISPHttpClientConfiguration } from '@microsoft/sp-http';
+import { SPHttpClient, SPHttpClientResponse} from '@microsoft/sp-http';
 
+import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
+import pnp, { Web } from 'sp-pnp-js';
 import { escape } from '@microsoft/sp-lodash-subset';
 import * as strings from 'ListTaskWebPartStrings';
 import ListTask from './components/ListTask';
 import { IListTaskProps } from './components/IListTaskProps';
 import {IListTaskWebPartProps} from './components/interface';
+import {sp} from "@pnp/sp";
 
 export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebPartProps> {
 
-    private dropdownOptions: IPropertyPaneDropdownOption[];
-    private listsFetched: boolean;
+    // private dropdownOptions: IPropertyPaneDropdownOption[];
+    // private listsFetched: boolean;
 
-    private fetchOptions(): Promise<IPropertyPaneDropdownOption[]> {
-        let url = this.properties.listURL + `/_api/web/lists?$filter=Hidden eq false`;
-
-        return this.fetchLists(url).then((response) => {
-            let options: Array<IPropertyPaneDropdownOption> = new Array<IPropertyPaneDropdownOption>();
-            response.value.map((list: IODataList) => {
-                options.push( { key: list.Id, text: list.Title });
+    public onInit(): Promise<void> {
+        return super.onInit().then(_ => {
+            sp.setup({
+                spfxContext: this.context.pageContext.web.absoluteUrl
             });
-            return options;
         });
     }
 
-    private fetchLists(url: string) : Promise<any> {
-        return this.context.spHttpClient.get(url, SPHttpClient.configurations.v1).then((response: SPHttpClientResponse) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                console.log("WARNING - failed to hit URL " + url + ". Error = " + response.statusText);
-                return null;
-            }
-        });
-    }
+       // private fetchOptions(): Promise<IPropertyPaneDropdownOption[]> {
+    //     let url = this.properties.listURL;
+    //
+    //     return this.fetchLists(url).then((response) => {
+    //         let options: Array<IPropertyPaneDropdownOption> = new Array <IPropertyPaneDropdownOption>();
+    //         response.map((list: IODataList) => {
+    //             options.push( { key: list.Id, text: list.Title });
+    //         });
+    //         return options;
+    //     });
+    // }
+
+//     private fetchLists(url: string) : Promise<any> {
+//         let web = new Web(url);
+//
+//         return web.lists.filter('Hidden eq false').get().then((response) => {
+//             if (response !== null) {
+//                 return response;
+//             } else {
+//                 console.log("WARNING - failed to hit URL " + url + ". Error = " + response.statusText);
+//                 return null;
+//             }
+// });
+// }
 
     private validateUrl(value: string): Promise<string>{
         return new Promise<string>((resolve: (validationErrorMessage: string) => void, reject: (error: any) => void): void => {
-            this.context.spHttpClient.get(`${escape(value)}`, SPHttpClient.configurations.v1)
-                .then((response: SPHttpClientResponse): void => {
-                    if (response.ok) {
+            let web = new Web(value);
+            web.get().then((response): void => {
+                    if (response !== null || response !== undefined) {
                         resolve('');
                         return;
                     }
@@ -75,10 +87,12 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
     const element: React.ReactElement<IListTaskProps > = React.createElement(
       ListTask,
       {
+          nameWebPart: this.properties.nameWebPart,
           listURL: this.properties.listURL || this.context.pageContext.web.absoluteUrl,
-          spHttpClient: this.context.spHttpClient,
+          // spHttpClient: this.context.spHttpClient,
           sliderNumber: this.properties.sliderNumber,
           filterItems: this.properties.filterItems,
+          selectItems: this.properties.selectItems,
           dropdownProperty: this.properties.dropdownProperty
       }
     );
@@ -95,13 +109,13 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
 
-      if (!this.listsFetched) {
-          this.fetchOptions().then((response) => {
-              this.dropdownOptions = response;
-              this.listsFetched = !this.listsFetched;
-              this.context.propertyPane.refresh();
-          });
-      }
+      // if (!this.listsFetched) {
+      //     this.fetchOptions().then((response) => {
+      //         this.dropdownOptions = response;
+      //         this.listsFetched = !this.listsFetched;
+      //         this.context.propertyPane.refresh();
+      //     });
+      // }
 
     return {
       pages: [
@@ -113,15 +127,28 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
             {
               groupName: strings.BasicGroupName,
               groupFields: [
+                  PropertyPaneTextField('nameWebPart', {
+                      label: strings.NameWebPartLabel,
+                      placeholder: "Input name Web Part"
+                  }),
                   PropertyPaneTextField('listURL', {
                   label: strings.ListURLFieldLabel,
                       placeholder: "Input url's list",
                       onGetErrorMessage: this.validateUrl.bind(this),
                       deferredValidationTime: 500
                 }),
-                  PropertyPaneDropdown('dropdownProperty', {
-                      label: 'List choice',
-                      options: this.dropdownOptions
+                  PropertyFieldListPicker('dropdownProperty', {
+                      label: 'Select a list',
+                      includeHidden: false,
+                      orderBy: PropertyFieldListPickerOrderBy.Title,
+                      disabled: false,
+                      onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                      properties: this.properties,
+                      context: this.context,
+                      onGetErrorMessage: null,
+                      deferredValidationTime: 200,
+                      key: 'listPickerFieldId',
+                      webAbsoluteUrl: this.properties.listURL
                   }),
                   PropertyPaneSlider('sliderNumber', {
                       label: 'Items',
@@ -134,8 +161,11 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
                   PropertyPaneTextField ('filterItems', {
                       label: strings.FilterFieldLabel,
                       placeholder: "Input filter for rendering items"
+                  }),
+                  PropertyPaneTextField ('selectItems', {
+                      label: strings.SelectFieldLabel,
+                      placeholder: "Input select for rendering items"
                   })
-
               ]
             }
           ]

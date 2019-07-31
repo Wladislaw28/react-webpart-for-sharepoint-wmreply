@@ -9,19 +9,11 @@
           "manifest": "./src/webparts/listTask/ListTaskWebPart.manifest.json"
         }
       ]
-    },
-    "oculus-task-application-customizer": {
-      "components": [
-        {
-          "entrypoint": "./lib/extensions/oculusTask/OculusTaskApplicationCustomizer.js",
-          "manifest": "./src/extensions/oculusTask/OculusTaskApplicationCustomizer.manifest.json"
-        }
-      ]
     }
   },
   "externals": {},
   "localizedResources": {
     "ListTaskWebPartStrings": "lib/webparts/listTask/loc/{locale}.js",
-    "OculusTaskApplicationCustomizerStrings": "lib/extensions/oculusTask/loc/{locale}.js"
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }

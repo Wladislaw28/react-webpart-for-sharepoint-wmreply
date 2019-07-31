@@ -6,29 +6,5 @@
   "api": {
     "port": 5432,
     "entryPath": "node_modules/@microsoft/sp-webpart-workbench/lib/api/"
-  },
-  "serveConfigurations": {
-    "default": {
-      "pageUrl": "https://mihasev28wmreply.sharepoint.com/sites/Dev1",
-      "customActions": {
-        "20dbc25b-930d-47d3-8302-866ef2f7cce1": {
-          "location": "ClientSideExtension.ApplicationCustomizer",
-          "properties": {
-            "urlContext": ""
-          }
-        }
-      }
-    },
-    "oculusTask": {
-      "pageUrl": "https://mihasev28wmreply.sharepoint.com/sites/Dev1/SitePages/Forms/ByAuthor.aspx",
-      "customActions": {
-        "20dbc25b-930d-47d3-8302-866ef2f7cce1": {
-          "location": "ClientSideExtension.ApplicationCustomizer",
-          "properties": {
-            "urlContext": ""
-          }
-        }
-      }
-    }
   }
 }
