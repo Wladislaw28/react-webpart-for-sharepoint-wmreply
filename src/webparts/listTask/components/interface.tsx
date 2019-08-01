@@ -1,3 +1,5 @@
+import { IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+
 export interface IListTaskWebPartProps {
     nameWebPart: string;
     listURL: string;
@@ -21,7 +23,7 @@ export interface IListTaskState {
     listItemsData: any;
     listName: string;
     yesOrNotList: boolean;
-    columns: Array<any>;
+    columns: Array<IColumn>;
 }
 
 export interface RenderItemsList {

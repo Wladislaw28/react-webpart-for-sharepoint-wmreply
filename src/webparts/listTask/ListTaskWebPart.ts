@@ -61,24 +61,18 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
 // }
 
     private validateUrl(value: string): Promise<string>{
-        return new Promise<string>((resolve: (validationErrorMessage: string) => void, reject: (error: any) => void): void => {
+        return new Promise<string>((resolve: (validationErrorMessage: any) => void, reject: (error: any) => void): void => {
             let web = new Web(value);
-            web.get().then((response): void => {
+
+            web.get().then((response): void =>
+            {
                     if (response !== null || response !== undefined) {
                         resolve('');
                         return;
                     }
-                    else if (response.status === 404) {
-                        resolve(`Site '${escape(value)}' doesn't exist`);
-                        return;
-                    }
-                    else {
-                        resolve(`Error: ${response.statusText}. Please try again`);
-                        return;
-                    }
                 })
-                .catch((error: any): void => {
-                    resolve(error);
+                .catch((): void => {
+                    resolve(`Site '${escape(value)}' doesn't exist`);
                 });
         });
     }
@@ -89,7 +83,6 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
       {
           nameWebPart: this.properties.nameWebPart,
           listURL: this.properties.listURL || this.context.pageContext.web.absoluteUrl,
-          // spHttpClient: this.context.spHttpClient,
           sliderNumber: this.properties.sliderNumber,
           filterItems: this.properties.filterItems,
           selectItems: this.properties.selectItems,
