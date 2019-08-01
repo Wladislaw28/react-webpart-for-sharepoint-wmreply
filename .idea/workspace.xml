@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1fc825d-ef8c-4fa5-ae9e-474e29b9c198" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/webparts/listTask/loc/nl-nl.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webparts/listTask/loc/ru-ru.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webparts/listTask/loc/en-us.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/loc/en-us.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webparts/listTask/loc/mystrings.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/webparts/listTask/loc/mystrings.d.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,51 +40,51 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="2" />
-          <entry key="js" value="12" />
-          <entry key="json" value="32" />
+          <entry key="js" value="16" />
+          <entry key="json" value="33" />
           <entry key="scss" value="7" />
-          <entry key="ts" value="77" />
+          <entry key="ts" value="80" />
           <entry key="tsx" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="2" />
-          <entry key="JSON" value="32" />
-          <entry key="JavaScript" value="12" />
+          <entry key="JSON" value="33" />
+          <entry key="JavaScript" value="16" />
           <entry key="SCSS" value="7" />
-          <entry key="TypeScript" value="77" />
+          <entry key="TypeScript" value="80" />
           <entry key="TypeScript JSX" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="136" />
+          <entry key="js" value="367" />
           <entry key="json" value="177" />
           <entry key="scss" value="278" />
-          <entry key="ts" value="1618" />
-          <entry key="tsx" value="4824" />
+          <entry key="ts" value="1853" />
+          <entry key="tsx" value="4838" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="19" />
           <entry key="JSON" value="177" />
-          <entry key="JavaScript" value="136" />
+          <entry key="JavaScript" value="367" />
           <entry key="SCSS" value="278" />
-          <entry key="TypeScript" value="1599" />
-          <entry key="TypeScript JSX" value="4824" />
+          <entry key="TypeScript" value="1834" />
+          <entry key="TypeScript JSX" value="4838" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1774">
-              <caret line="85" selection-start-line="85" selection-end-line="85" />
+            <state relative-caret-position="113">
+              <caret line="86" column="41" selection-start-line="86" selection-start-column="35" selection-end-line="86" selection-end-column="42" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -90,8 +95,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1472">
-              <caret line="2" column="65" selection-start-line="2" selection-start-column="65" selection-end-line="2" selection-end-column="65" />
+            <state relative-caret-position="253">
+              <caret line="51" column="15" selection-start-line="51" selection-start-column="15" selection-end-line="51" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -105,11 +122,38 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/ru-ru.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+            <state relative-caret-position="437">
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/en-us.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="9" column="41" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/nl-nl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/mystrings.d.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -159,15 +203,17 @@
         <option value="$PROJECT_DIR$/src/extensions/oculusTask/components/IOculusLogic.ts" />
         <option value="$PROJECT_DIR$/src/extensions/oculusTask/components/OculusLogic.tsx" />
         <option value="$PROJECT_DIR$/config/package-solution.json" />
-        <option value="$PROJECT_DIR$/src/webparts/listTask/loc/mystrings.d.ts" />
-        <option value="$PROJECT_DIR$/src/webparts/listTask/loc/en-us.js" />
         <option value="$PROJECT_DIR$/config/config.json" />
         <option value="$PROJECT_DIR$/config/serve.json" />
         <option value="$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.manifest.json" />
         <option value="$PROJECT_DIR$/src/webparts/listTask/components/IListTaskProps.ts" />
-        <option value="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx" />
-        <option value="$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.ts" />
         <option value="$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx" />
+        <option value="$PROJECT_DIR$/src/webparts/listTask/loc/mystrings.d.ts" />
+        <option value="$PROJECT_DIR$/src/webparts/listTask/loc/en-us.js" />
+        <option value="$PROJECT_DIR$/src/webparts/listTask/loc/nl-nl.js" />
+        <option value="$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.ts" />
+        <option value="$PROJECT_DIR$/src/webparts/listTask/loc/ru-ru.js" />
+        <option value="$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx" />
       </list>
     </option>
   </component>
@@ -298,12 +344,12 @@
       <workItem from="1563968657913" duration="60834000" />
       <workItem from="1564152957453" duration="46567000" />
       <workItem from="1564569125968" duration="6486000" />
-      <workItem from="1564593495409" duration="28821000" />
+      <workItem from="1564593495409" duration="35841000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142708000" />
+    <option name="totallyTimeSpent" value="149728000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -347,14 +393,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/@types/react-dom/index.d.ts" />
-    <entry file="file://$PROJECT_DIR$/lib/webparts/listTask/MockHttpClient.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="51" lean-forward="true" selection-start-column="51" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/webparts/listTask/components/ListTask.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -514,13 +552,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@microsoft/sp-webpart-base/dist/index-internal.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="452" column="14" selection-start-line="452" selection-start-column="14" selection-end-line="452" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dist/list-task-web-part.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-17721">
@@ -538,20 +569,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/en-us.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="9" column="3" lean-forward="true" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/mystrings.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="4" column="30" lean-forward="true" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.manifest.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
@@ -566,27 +583,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/ListTask.module.scss.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
           <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1774">
-          <caret line="85" selection-start-line="85" selection-end-line="85" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -597,17 +597,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx">
+    <entry file="file://$PROJECT_DIR$/node_modules/@microsoft/sp-webpart-base/dist/index-internal.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1472">
-          <caret line="2" column="65" selection-start-line="2" selection-start-column="65" selection-end-line="2" selection-end-column="65" />
+        <state relative-caret-position="221">
+          <caret line="452" column="14" selection-start-line="452" selection-start-column="14" selection-end-line="452" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/interface.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
-          <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/en-us.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="41" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/nl-nl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/mystrings.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/loc/ru-ru.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/components/ListTask.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="51" column="15" selection-start-line="51" selection-start-column="15" selection-end-line="51" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/webparts/listTask/ListTaskWebPart.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="86" column="41" selection-start-line="86" selection-start-column="35" selection-end-line="86" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

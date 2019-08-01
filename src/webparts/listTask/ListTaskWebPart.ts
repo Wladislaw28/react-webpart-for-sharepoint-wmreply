@@ -5,8 +5,6 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import {
     IPropertyPaneConfiguration,
     PropertyPaneTextField,
-    PropertyPaneDropdown,
-    IPropertyPaneDropdownOption,
     PropertyPaneSlider,
     } from '@microsoft/sp-property-pane';
 
@@ -26,6 +24,8 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
 
     // private dropdownOptions: IPropertyPaneDropdownOption[];
     // private listsFetched: boolean;
+
+    private listDropdownDisabled: boolean = false;
 
     public onInit(): Promise<void> {
         return super.onInit().then(_ => {
@@ -68,11 +68,13 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
             {
                     if (response !== null || response !== undefined) {
                         resolve('');
+                        // this.listDropdownDisabled = false;
                         return;
                     }
                 })
                 .catch((): void => {
-                    resolve(`Site '${escape(value)}' doesn't exist`);
+                    resolve(`Site '${escape(value)}' ${strings.ErrorMessage}`);
+                    // this.listDropdownDisabled = true;
                 });
         });
     }
@@ -122,24 +124,24 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
               groupFields: [
                   PropertyPaneTextField('nameWebPart', {
                       label: strings.NameWebPartLabel,
-                      placeholder: "Input name Web Part"
+                      placeholder: strings.PlacegolderNameWebPart
                   }),
                   PropertyPaneTextField('listURL', {
                   label: strings.ListURLFieldLabel,
-                      placeholder: "Input url's list",
+                      placeholder: strings.PlacegolderListUrl,
                       onGetErrorMessage: this.validateUrl.bind(this),
                       deferredValidationTime: 500
                 }),
                   PropertyFieldListPicker('dropdownProperty', {
-                      label: 'Select a list',
+                      label: strings.SelectListDropdawn,
                       includeHidden: false,
                       orderBy: PropertyFieldListPickerOrderBy.Title,
-                      disabled: false,
+                      disabled: this.listDropdownDisabled,
                       onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
                       properties: this.properties,
                       context: this.context,
                       onGetErrorMessage: null,
-                      deferredValidationTime: 200,
+                      deferredValidationTime: 600,
                       key: 'listPickerFieldId',
                       webAbsoluteUrl: this.properties.listURL
                   }),
@@ -153,11 +155,11 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
                   }),
                   PropertyPaneTextField ('filterItems', {
                       label: strings.FilterFieldLabel,
-                      placeholder: "Input filter for rendering items"
+                      placeholder: strings.PlacegolderFilterItems
                   }),
                   PropertyPaneTextField ('selectItems', {
                       label: strings.SelectFieldLabel,
-                      placeholder: "Input select for rendering items"
+                      placeholder: strings.PlacegolderSelectItems
                   })
               ]
             }
