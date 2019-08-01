@@ -21,6 +21,7 @@ export interface IListTaskState {
     listItemsData: any;
     listName: string;
     yesOrNotList: boolean;
+    columns: Array<any>;
 }
 
 export interface RenderItemsList {

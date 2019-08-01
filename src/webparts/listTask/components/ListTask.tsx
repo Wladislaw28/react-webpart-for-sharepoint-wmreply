@@ -1,14 +1,7 @@
 import * as React from 'react';
-import {
-    Environment,
-    EnvironmentType
-} from '@microsoft/sp-core-library';
 
-import MockHttpClient from '../MockHttpClient';
-import {
-    SPHttpClient,
-    SPHttpClientResponse
-} from '@microsoft/sp-http';
+import { DetailsList, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import pnp, { Web } from 'sp-pnp-js';
 import { IListTaskProps } from './IListTaskProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import {IListTaskState,ISPList,ISPLists } from './interface';
@@ -36,93 +29,69 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
         listData: [],
         listItemsData: [],
         listName: '',
-        yesOrNotList: true
+        yesOrNotList: false,
+        columns: []
     };
 
-    public componentDidMount(): void {
-        if (this.props.dropdownProperty === undefined){
+    public componentDidMount() : void {
+        this._checkList();
+    }
+
+    public componentWillReceiveProps(): void {
+        this._checkList();
+    }
+
+    private _checkList(): void {
+        if (this.props.dropdownProperty === undefined) {
+            this.setState({
+                yesOrNotList: true
+            });
+        } else {
             this.setState({
                 yesOrNotList: false
+            }, () => {
+                this._getData();
             });
         }
     }
 
-    // private _getMockListData(): Promise<ISPLists> {
-    //     return MockHttpClient.get()
-    //         .then((data: ISPList[]) => {
-    //             var listDataMock: ISPLists = { value: data };
-    //             console.log(listDataMock.value);
-    //             return listDataMock;
-    //         }) as Promise<ISPLists>;
-    // }
-    //
-    // private _getListData(): Promise<ISPLists> {
-    //     return this.props.spHttpClient.get(
-    //         `${this.props.listURL}/_api/web/lists?$filter=Hidden eq false`,
-    //         SPHttpClient.configurations.v1)
-    //         .then((response: SPHttpClientResponse) => {
-    //             return response.json();
-    //         });
-    // }
-    //
-    // private _getFilterListAndItems(items: ISPList[]): Promise<ISPLists> {
-    //     const idProps:string = this.props.dropdownProperty;
-    //     const dataI: ISPList[] = items.filter((item) => item.Id === idProps);
-    //    this.setState({
-    //        listData: dataI,
-    //        listName: dataI["0"].Title
-    //    });
-    //     return (this.props.filterItems === "" ? this.props.spHttpClient.get(
-    //         `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?$top=${this.props.sliderNumber}`,
-    //         SPHttpClient.configurations.v1)
-    //         .then((response: SPHttpClientResponse) =>   {
-    //             return response.json();
-    //         }) :
-    //         this.props.spHttpClient.get(
-    //         `${this.props.listURL}/_api/web/lists/getbytitle('${this.state.listName}')/items?&top=${this.props.sliderNumber}&$select=${this.props.filterItems}`,
-    //         SPHttpClient.configurations.v1)
-    //         .then((response: SPHttpClientResponse) =>   {
-    //             return response.json();
-    //         })) ;
-    // }
-    //
-    // private _renderAllList(items: ISPList[]): void {
-    //     this.setState({
-    //         listData: items
-    //     });
-    // }
-    //
-    // private _renderList(items: ISPList[]) : void{
-    //     this.setState({
-    //         listItemsData: items
-    //     });
-    // }
-    //
-    // private _renderAllListAsync(): void {
-    //     // Local environment
-    //     if (Environment.type === EnvironmentType.Local) {
-    //         this._getMockListData().then((response) => {
-    //             this._renderAllList(response.value);
-    //         });
-    //     }
-    //     else if (Environment.type == EnvironmentType.SharePoint ||
-    //         Environment.type == EnvironmentType.ClassicSharePoint) {
-    //         this._getListData().then((response) => {
-    //                 this._renderAllList(response.value);
-    //             });
-    //     }
-    // }
-    //
-    // private _renderListAsync(): void {
-    //     this._getListData().then((response) => {
-    //         this._getFilterListAndItems(response.value).then((responseItems) => {
-    //             this._renderList(responseItems.value);
-    //         });
-    //     });
-    // }
+    private _getData(): void {
+        let web = new Web(this.props.listURL);
+        if (this.props.filterItems !== '') {
+            web.lists.getById(this.props.dropdownProperty).items.select(...this.props.selectItems.split(';')).filter(this.props.filterItems).top(this.props.sliderNumber).get().then((response) => {
+                this.setState({
+                   listData: response,
+                    columns: this._columsCreate(this.props.selectItems.split(';'))
+                });
+            });
+        } else {
+            web.lists.getById(this.props.dropdownProperty).items.select(...this.props.selectItems.split(';')).top(this.props.sliderNumber).get().then((response) => {
+                this.setState({
+                    listData: response,
+                    columns: this._columsCreate(this.props.selectItems.split(';'))
+                });
+            });
+        }
+    }
+
+    private _columsCreate(arraySelect: Array<any>): Array<IColumn> {
+        const columns: IColumn[] = [];
+        arraySelect.forEach((el, index) => {
+            columns.push({
+                key: `column${index}`,
+                name: el,
+                fieldName: el,
+                minWidth: 70,
+                maxWidth: 90,
+                isResizable: true,
+            });
+        });
+        return columns;
+    }
 
   public render(): React.ReactElement<IListTaskProps> {
-        const {listData, listName, listItemsData, yesOrNotList} = this.state;
+        const {listData, yesOrNotList, columns} = this.state;
+
     // @ts-ignore
       return (
         <div className={styles.listTask}>
@@ -132,16 +101,20 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
                         <span className={styles.welcome_text}>{this.props.nameWebPart}</span> <br/> <br/>
                         <span className={styles.welcome_text}>Welcome to task by SharePoint!</span> <br/>
                         <p className="ms-font-l ms-fontColor-white">{escape(this.props.listURL)}</p>
-                        {yesOrNotList === false ? <h1 className={styles.headline}>Choice the list</h1> : null}
+                        {yesOrNotList === true ? <h1 className={styles.headline}>Choice the list</h1> : null}
                     </div>
                 </div>
                 <div>
-                    {listData.length > 1 ? <LoadableRenderLists listData={listData} /> : null}
-                </div>
-                <div>
-                    {listItemsData.length > 0 && listData.length <= 1 ?
-                        <LoadableRenderItems listName={listName} listItemsData={listItemsData} />
-                        : null }
+                    {listData.length > 1 ?
+                        <DetailsList items={this.state.listData}
+                                     columns={columns}
+                                     setKey="set"
+                                     layoutMode={DetailsListLayoutMode.justified}
+                                     isHeaderVisible={true}
+                                     selectionPreservedOnEmptyClick={true}
+                                     enterModalSelectionOnTouch={true}
+                                     ariaLabelForSelectionColumn="Toggle selection"
+                                     ariaLabelForSelectAllCheckbox="Toggle selection for all items" /> : null}
                 </div>
             </div>
         </div>
