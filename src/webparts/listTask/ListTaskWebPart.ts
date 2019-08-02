@@ -7,23 +7,19 @@ import {
     PropertyPaneTextField,
     PropertyPaneSlider,
     } from '@microsoft/sp-property-pane';
-
-import { IODataList } from '@microsoft/sp-odata-types';
-import { SPHttpClient, SPHttpClientResponse} from '@microsoft/sp-http';
-
-import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
-import pnp, { Web } from 'sp-pnp-js';
+import {sp} from "@pnp/sp";
+import { PropertyFieldListPicker,
+    PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
 import { escape } from '@microsoft/sp-lodash-subset';
-import * as strings from 'ListTaskWebPartStrings';
+
 import ListTask from './components/ListTask';
 import { IListTaskProps } from './components/IListTaskProps';
 import {IListTaskWebPartProps} from './components/interface';
-import {sp} from "@pnp/sp";
+
+import * as strings from 'ListTaskWebPartStrings';
+
 
 export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebPartProps> {
-
-    // private dropdownOptions: IPropertyPaneDropdownOption[];
-    // private listsFetched: boolean;
 
     private listDropdownDisabled: boolean = false;
 
@@ -35,46 +31,29 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
         });
     }
 
-       // private fetchOptions(): Promise<IPropertyPaneDropdownOption[]> {
-    //     let url = this.properties.listURL;
-    //
-    //     return this.fetchLists(url).then((response) => {
-    //         let options: Array<IPropertyPaneDropdownOption> = new Array <IPropertyPaneDropdownOption>();
-    //         response.map((list: IODataList) => {
-    //             options.push( { key: list.Id, text: list.Title });
-    //         });
-    //         return options;
-    //     });
-    // }
-
-//     private fetchLists(url: string) : Promise<any> {
-//         let web = new Web(url);
-//
-//         return web.lists.filter('Hidden eq false').get().then((response) => {
-//             if (response !== null) {
-//                 return response;
-//             } else {
-//                 console.log("WARNING - failed to hit URL " + url + ". Error = " + response.statusText);
-//                 return null;
-//             }
-// });
-// }
+    public onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
+        if (propertyPath === 'listURL') {
+            this.validateUrl(this.properties.listURL);
+        }
+    }
 
     private validateUrl(value: string): Promise<string>{
-        return new Promise<string>((resolve: (validationErrorMessage: any) => void, reject: (error: any) => void): void => {
-            let web = new Web(value);
+        // @ts-ignore
+        return new Promise<string>(async (resolve: (validationErrorMessage: any) => void, reject: (error: any) => void): void => {
+            const Web1 = (await import(/*webpackChunkName: '@pnp_sp' */ "@pnp/sp")).Web;
+            let web = new Web1(value);
 
-            web.get().then((response): void =>
-            {
-                    if (response !== null || response !== undefined) {
-                        resolve('');
-                        // this.listDropdownDisabled = false;
-                        return;
-                    }
-                })
+            web.get().then((response): void => {
+                if (response !== null || response !== undefined) {
+                    this.listDropdownDisabled = false;
+                    this.context.propertyPane.refresh();
+                    return;
+                }
+            })
                 .catch((): void => {
-                    resolve(`Site '${escape(value)}' ${strings.ErrorMessage}`);
-                    // this.listDropdownDisabled = true;
+                    alert(`Site '${escape(value)}' ${strings.ErrorMessage}`);
+                    this.listDropdownDisabled = true;
+                    this.context.propertyPane.refresh();
                 });
         });
     }
@@ -104,14 +83,6 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
 
-      // if (!this.listsFetched) {
-      //     this.fetchOptions().then((response) => {
-      //         this.dropdownOptions = response;
-      //         this.listsFetched = !this.listsFetched;
-      //         this.context.propertyPane.refresh();
-      //     });
-      // }
-
     return {
       pages: [
         {
@@ -129,7 +100,6 @@ export default class ListTaskWebPart extends BaseClientSideWebPart<IListTaskWebP
                   PropertyPaneTextField('listURL', {
                   label: strings.ListURLFieldLabel,
                       placeholder: strings.PlacegolderListUrl,
-                      onGetErrorMessage: this.validateUrl.bind(this),
                       deferredValidationTime: 500
                 }),
                   PropertyFieldListPicker('dropdownProperty', {

@@ -14,6 +14,6 @@ define([], function() {
 		"PlacegolderSelectItems": "Ingang selecteren voor het renderen van items",
 		"PlacegolderFilterItems": "Invoerfilter voor het renderen van items",
 		"PlacegolderNameWebPart": "Invoernaam Webonderdeel",
-		"PlacegolderListUrl": "Voer URL's in"
+		"PlacegolderListUrl": "Bijvoorbeeld https://mihasev28wmreply.sharepoint.com/sites/Dev1"
 	}
 });

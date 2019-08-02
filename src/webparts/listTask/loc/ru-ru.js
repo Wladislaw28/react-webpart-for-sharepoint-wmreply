@@ -14,6 +14,6 @@ define([], function() {
 		"PlacegolderSelectItems": "Введите select для рендера значений",
 		"PlacegolderFilterItems": "Введите filter for рендера значений",
 		"PlacegolderNameWebPart": "Введите имя Web Part",
-		"PlacegolderListUrl": "Введите urls списка"
+		"PlacegolderListUrl": "Например https://mihasev28wmreply.sharepoint.com/sites/Dev1"
 	}
 });

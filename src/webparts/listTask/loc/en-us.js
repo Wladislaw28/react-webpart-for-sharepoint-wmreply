@@ -14,6 +14,6 @@ define([], function() {
 	  "PlacegolderSelectItems": "Input select for rendering items",
 	  "PlacegolderFilterItems": "Input filter for rendering items",
 	  "PlacegolderNameWebPart": "Input name Web Part",
-	  "PlacegolderListUrl": "Input urls list"
+	  "PlacegolderListUrl": "For example https://mihasev28wmreply.sharepoint.com/sites/Dev1"
   }
 });

@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { DetailsList, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
-import pnp, { Web } from 'sp-pnp-js';
 import { IListTaskProps } from './IListTaskProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import {IListTaskState } from './interface';
@@ -13,8 +12,6 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
 
     public state = {
         listData: [],
-        listItemsData: [],
-        listName: '',
         yesOrNotList: false,
         columns: []
     };
@@ -41,8 +38,10 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
         }
     }
 
-    private _getData(): void {
-        let web = new Web(this.props.listURL);
+    // @ts-ignore
+    private async _getData(): void {
+        const Web1 = (await import(/*webpackChunkName: '@pnp_sp' */ "@pnp/sp")).Web;
+        let web = new Web1(this.props.listURL);
         if (this.props.filterItems !== '') {
             web.lists.getById(this.props.dropdownProperty).items.top(this.props.sliderNumber).filter(this.props.filterItems).select(...this.props.selectItems.split(';')).get().then((response) => {
                 this.setState({
@@ -84,7 +83,7 @@ export default class ListTask extends React.Component<IListTaskProps, IListTaskS
             <div className={styles.container}>
                 <div className={`ms-Grid-row ms-bgColor-themeDark ms-fontColor-white ${styles.row}`}>
                     <div className="ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1">
-                        <span className={styles.welcome_text}>{this.props.nameWebPart}</span> <br/> <br/>
+                        <span className={styles.nameWebpart_text}>{this.props.nameWebPart}</span> <br/> <br/>
                         <span className={styles.welcome_text}>{strings.WelcomeTitle}</span> <br/>
                         <p className="ms-font-l ms-fontColor-white">{escape(this.props.listURL)}</p>
                         {yesOrNotList === true ? <h1 className={styles.headline}>{strings.ChoiceTheList}</h1> : null}

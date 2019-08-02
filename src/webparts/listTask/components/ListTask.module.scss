@@ -168,4 +168,12 @@
     float: left;
     font-size: 17px;
   }
+
+  .nameWebpart_text{
+    position: relative;
+    overflow: hidden;
+    float: left;
+    font-size: 17px;
+    color:  $ms-color-themePrimary;
+  }
 }

@@ -6,7 +6,7 @@ export interface IListTaskWebPartProps {
     sliderNumber: number;
     filterItems: string;
     selectItems: string;
-    dropdownProperty: any;
+    dropdownProperty: string;
 }
 
 export interface ISPLists {
@@ -20,8 +20,6 @@ export interface ISPList {
 
 export interface IListTaskState {
     listData: ISPList[];
-    listItemsData: any;
-    listName: string;
     yesOrNotList: boolean;
     columns: Array<IColumn>;
 }
